@@ -24,13 +24,6 @@ teamnames = ["GE", "Quest"]
 doctypes = ["DWG", "TechSpec","BOM"]
 
 
-# --- DATABASE INTERFACE ---
-def get_all_periods():
-    items = db.fetch_all_periods()
-    periods = [item["key"] for item in items]
-    return items
-
-
 # --- HIDE STREAMLIT STYLE ---
 hide_st_style = """
             <style>
@@ -69,14 +62,14 @@ with st.form("entry_form", clear_on_submit=True):
     submitted = st.form_submit_button("Save Data")
     if submitted:
         db.insert_period(teamname, reviwername, doctype, number,rev,pages,description,startdate,enddate)
-        df=pd.read_json(get_all_periods())
+        df=pd.read_json(db.fetch_all_periods())
         st.dataframe(df)
         st.success("Data saved!")
 
 
 # --- PLOT PERIODS ---
 #if selected == "Data Visualization":
-st.header("Data Visualization")
+#st.header("Data Visualization")
 
 # with st.form("saved_periods"):
 #     period = st.selectbox("Select Period:", get_all_periods())
