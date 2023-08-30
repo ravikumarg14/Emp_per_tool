@@ -13,9 +13,9 @@ deta = Deta(DETA_KEY)
 db = deta.Base("employee_data")
 
 
-def insert_period(teamname, reviwername, doctype, number,rev,pages,description,startdate,enddate):
+def insert_period(teamname, reviwername, doctype, number,rev,pages,description,startdate,enddate,hours):
     """Returns the report on a successful creation, otherwise raises an error"""
-    return db.put({"teamname": teamname, "reviwername": reviwername, "doctype": doctype, "number": number, "rev": rev, "pages": pages, "description": description, "startdate": startdate, "enddate": enddate})
+    return db.put({"teamname": teamname, "reviwername": reviwername, "doctype": doctype, "number": number, "rev": rev, "pages": pages, "description": description, "startdate": startdate, "enddate": enddate,"hours": hours})
 
 
 def fetch_all_periods():
