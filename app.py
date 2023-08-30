@@ -63,7 +63,7 @@ with st.form("entry_form", clear_on_submit=True):
     if submitted:
         db.insert_period(teamname, reviwername, doctype, number,rev,pages,description,startdate,enddate)
         st.write(type(db.fetch_all_periods()))
-        df=pd.dataframe(db.fetch_all_periods())
+        df=pd.DataFrame(db.fetch_all_periods())
         st.dataframe(df)
         st.success("Data saved!")
 
