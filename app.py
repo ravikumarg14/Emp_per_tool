@@ -2,7 +2,8 @@ import calendar  # Core Python Module
 import datetime  # Core Python Module
 import plotly.graph_objects as go  # pip install plotly
 import streamlit as st  # pip install streamlit
-# from streamlit_option_menu import option_menu  # pip install streamlit-option-menu
+from streamlit_option_menu import option_menu  # pip install streamlit-option-menu
+import pandas as pd
 
 import database as db  # local import
 
@@ -24,10 +25,10 @@ doctypes = ["DWG", "TechSpec","BOM"]
 
 
 # --- DATABASE INTERFACE ---
-# def get_all_periods():
-#     items = db.fetch_all_periods()
-#     periods = [item["key"] for item in items]
-#     return periods
+def get_all_periods():
+    items = db.fetch_all_periods()
+    periods = [item["key"] for item in items]
+    return items
 
 
 # --- HIDE STREAMLIT STYLE ---
@@ -72,8 +73,10 @@ with st.form("entry_form", clear_on_submit=True):
 
 
 # --- PLOT PERIODS ---
-# if selected == "Data Visualization":
-# st.header("Data Visualization")
+#if selected == "Data Visualization":
+st.header("Data Visualization")
+df=pd.read_json(get_all_periods())
+st.dataframe(df)
 # with st.form("saved_periods"):
 #     period = st.selectbox("Select Period:", get_all_periods())
 #     submitted = st.form_submit_button("Plot Period")
