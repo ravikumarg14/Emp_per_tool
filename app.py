@@ -61,9 +61,9 @@ with st.form("entry_form", clear_on_submit=True):
     pages=st.number_input("Enter Number of Pages",min_value=0, format="%i", step=1,key="pages")
     description = st.text_area("Description", placeholder="Enter your Description here ...")
     startdate = st.date_input("Start Date", value=None, min_value=None, max_value=None, key="startdate", on_change=None, args=None, kwargs=None)
-    startdate=startdate.strftime("%Y-%m-%d)
+    startdate=str(startdate)
     enddate = st.date_input("End Date", value=None, min_value=startdate, max_value=None, key=None, on_change=None, args=None, kwargs=None)
-    enddate=enddate.strftime("%Y-%m-%d)
+    enddate=str(enddate)
     "---"
     submitted = st.form_submit_button("Save Data")
     if submitted:
