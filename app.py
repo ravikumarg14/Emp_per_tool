@@ -67,7 +67,8 @@ if selected == "Data Entry":
 if selected == "Data Visualization":
     st.header("Data Visualization")
     df=pd.DataFrame(db.fetch_all_periods())
-    finaldf=pd.DataFrame(columns=['Team Name', 'Reviwer Name', 'Doc Type', 'Number','Rev','No of Pages','Description','Start Date','End Date','Total Hours'])        finaldf['Team Name']=df['teamname']
+    finaldf=pd.DataFrame(columns=['Team Name', 'Reviwer Name', 'Doc Type', 'Number','Rev','No of Pages','Description','Start Date','End Date','Total Hours'])        
+    finaldf['Team Name']=df['teamname']
     finaldf['Reviwer Name']=df['reviwername']
     finaldf['Doc Type']=df['doctype']
     finaldf['Number']=df['number']
