@@ -21,7 +21,7 @@ def insert_period(teamname, reviwername, doctype, number,rev,pages,description,s
 def fetch_all_periods():
     """Returns a dict of all periods"""
     res = db.fetch()
-    return res
+    return res.items
 
 
 def get_period(period):
