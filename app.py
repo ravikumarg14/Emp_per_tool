@@ -58,13 +58,16 @@ with st.form("entry_form", clear_on_submit=True):
     enddate = st.date_input("End Date", value=None, min_value=startdate, max_value=None, key=None, on_change=None, args=None, kwargs=None)
     startdate=str(startdate)
     enddate=str(enddate)
+            
+    hours=st.number_input("Enter Total Number of Hours Spent")
     "---"
     submitted = st.form_submit_button("Save Data")
     if submitted:
-        db.insert_period(teamname, reviwername, doctype, number,rev,pages,description,startdate,enddate)
-        st.write(type(db.fetch_all_periods()))
+        db.insert_period(teamname, reviwername, doctype, number,rev,pages,description,startdate,enddate,hours)
         df=pd.DataFrame(db.fetch_all_periods())
-        st.dataframe(df)
+        finaldf=pd.DataFrame(columns=['Team Name', 'Reviwer Name', 'Doc Type', 'Number','Rev','No of Pages','Description','Start Date','End Date','Total Hours'])
+
+        st.dataframe(finaldf)
         st.success("Data saved!")
 
 
