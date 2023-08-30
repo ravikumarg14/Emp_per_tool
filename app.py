@@ -8,9 +8,6 @@ import pandas as pd
 import database as db  # local import
 
 # -------------- SETTINGS --------------
-incomes = ["Salary", "Blog", "Other Income"]
-expenses = ["Rent", "Utilities", "Groceries", "Car", "Other Expenses", "Saving"]
-currency = "USD"
 page_title = "Employee Performance Tracker"
 page_icon = ":globe_with_meridians:"  # emojis: https://www.webfx.com/tools/emoji-cheat-sheet/
 layout = "centered"
@@ -35,46 +32,52 @@ hide_st_style = """
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
 # --- NAVIGATION MENU ---
-# selected = option_menu(
-#     menu_title=None,
-#     options=["Data Entry", "Data Visualization"],
-#     icons=["pencil-fill", "bar-chart-fill"],  # https://icons.getbootstrap.com/
-#     orientation="horizontal",
-# )
+selected = option_menu(
+    menu_title=None,
+    options=["Data Entry", "Data Visualization"],
+    icons=["pencil-fill", "bar-chart-fill"],  # https://icons.getbootstrap.com/
+    orientation="horizontal",
+)
 
 # --- INPUT & SAVE PERIODS ---
-# if selected == "Data Entry":
-# st.header(f"Data Entry in {currency}")
-with st.form("entry_form", clear_on_submit=True):
-    teamname=st.selectbox("Select Team Name:", teamnames, key="teamname")
-    reviwername=st.text_input("Enter Reviwer Name",key="reviwername")
-    doctype = st.selectbox("Select Doc Type:", doctypes, key="doctype")
-    number=st.text_input("Enter Number",key="number")
-    rev=st.text_input("Enter Rev Number",key="rev")
-    # st.text_input("Enter Description Name",key="description")
-    pages=st.number_input("Enter Number of Pages",min_value=0, format="%i", step=1,key="pages")
-    description = st.text_area("Description", placeholder="Enter your Description here ...")
-    startdate = st.date_input("Start Date", value=None, min_value=None, max_value=None, key="startdate", on_change=None, args=None, kwargs=None)
-    enddate = st.date_input("End Date", value=None, min_value=startdate, max_value=None, key=None, on_change=None, args=None, kwargs=None)
-    startdate=str(startdate)
-    enddate=str(enddate)
-            
-    hours=st.number_input("Enter Total Number of Hours Spent")
-    "---"
-    submitted = st.form_submit_button("Save Data")
-    if submitted:
-        db.insert_period(teamname, reviwername, doctype, number,rev,pages,description,startdate,enddate,hours)
-        df=pd.DataFrame(db.fetch_all_periods())
-        finaldf=pd.DataFrame(columns=['Team Name', 'Reviwer Name', 'Doc Type', 'Number','Rev','No of Pages','Description','Start Date','End Date','Total Hours'])
-
-        st.dataframe(finaldf)
-        st.success("Data saved!")
+if selected == "Data Entry":
+	with st.form("entry_form", clear_on_submit=True):
+	    teamname=st.selectbox("Select Team Name:", teamnames, key="teamname")
+	    reviwername=st.text_input("Enter Reviwer Name",key="reviwername")
+	    doctype = st.selectbox("Select Doc Type:", doctypes, key="doctype")
+	    number=st.text_input("Enter Number",key="number")
+	    rev=st.text_input("Enter Rev Number",key="rev")
+	    # st.text_input("Enter Description Name",key="description")
+	    pages=st.number_input("Enter Number of Pages",min_value=0, format="%i", step=1,key="pages")
+	    description = st.text_area("Description", placeholder="Enter your Description here ...")
+	    startdate = st.date_input("Start Date", value=None, min_value=None, max_value=None, key="startdate", on_change=None, args=None, kwargs=None)
+	    enddate = st.date_input("End Date", value=None, min_value=startdate, max_value=None, key=None, on_change=None, args=None, kwargs=None)
+	    startdate=str(startdate)
+	    enddate=str(enddate)
+	            
+	    hours=st.number_input("Enter Total Number of Hours Spent")
+	    "---"
+	    submitted = st.form_submit_button("Save Data")
+	    if submitted:
+	        db.insert_period(teamname, reviwername, doctype, number,rev,pages,description,startdate,enddate,hours)
+	        st.success("Data saved!")
 
 
 # --- PLOT PERIODS ---
-#if selected == "Data Visualization":
-#st.header("Data Visualization")
-
+if selected == "Data Visualization":
+    st.header("Data Visualization")
+    df=pd.DataFrame(db.fetch_all_periods())
+    finaldf=pd.DataFrame(columns=['Team Name', 'Reviwer Name', 'Doc Type', 'Number','Rev','No of Pages','Description','Start Date','End Date','Total Hours'])        finaldf['Team Name']=df['teamname']
+    finaldf['Reviwer Name']=df['reviwername']
+    finaldf['Doc Type']=df['doctype']
+    finaldf['Number']=df['number']
+    finaldf['Rev']=df['rev']
+    finaldf['No of Pages']=df['pages']
+    finaldf['Description']=df['description']
+    finaldf['Start Date']=df['startdate']
+    finaldf['End Date']=df['enddate']
+    finaldf['Total Hours']=df['hours']
+    st.dataframe(finaldf)
 # with st.form("saved_periods"):
 #     period = st.selectbox("Select Period:", get_all_periods())
 #     submitted = st.form_submit_button("Plot Period")
